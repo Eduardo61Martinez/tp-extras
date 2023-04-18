@@ -71,6 +71,17 @@ cantCapasPorPizza [] = []
 cantCapasPorPizza (x:xs) = (cantidadDeCapas x, x) : cantCapasPorPizza xs 
 
 -------------------------------------Mapa del tesoro ----------------------------------------------------
+data Dir = Izq | Der 
+    deriving Show
+
+data Objeto = Tesoro | Chatarra
+    deriving Show
+
+data Cofre = Cofre [Objeto]
+    deriving Show
+
+data Mapa = Fin Cofre| Bifurcacion Cofre Mapa Mapa
+    deriving Show
 
 -- eje 2.1 
 hayTesoro :: Mapa -> Bool
@@ -100,7 +111,7 @@ esDerecha Der = True
 esDerecha _ = False
 
 
---eje2.3s
+--eje2.3
 caminoAlTesoro :: Mapa -> [Dir]
 caminoAlTesoro (Fin cofreFinal) = []
 caminoAlTesoro (Bifurcacion cofre mapa1 mapa2) = if hayTesoroEnCofre_ cofre
@@ -151,17 +162,6 @@ juntarListaPorLevel [] y = y
 juntarListaPorLevel (x:xs) (y:ys) = (x ++ y) : juntarListaPorLevel xs ys 
 
 --eje 2.6 
-data Dir = Izq | Der 
-    deriving Show
-
-data Objeto = Tesoro | Chatarra
-    deriving Show
-
-data Cofre = Cofre [Objeto]
-    deriving Show
-
-data Mapa = Fin Cofre| Bifurcacion Cofre Mapa Mapa
-    deriving Show
 
 {-- 
 camino1 = Bifurcacion c1 camino2 camino4 
@@ -225,7 +225,6 @@ sectoresT (NodeT s t1 t2) = idSector s : sectoresT t1
 idSector :: Sector -> SectorId
 idSector (S id _ _) = id
 
--- eje3.2 
 {-- 
 nave1 = N (arbol1) 
 
@@ -254,6 +253,7 @@ c5 = Almacen [Comida, Oxigeno]
 
 l1 = [c3, c4, c5] --}
 
+--eje3.2 
 poderDePropulsion :: Nave -> Int
 poderDePropulsion (N t) = propulsionT t
 
@@ -328,7 +328,7 @@ agregarTASectorSiPerteneceA t s (id:ids) = if idSector s == id
 agregarTA:: Tripulante -> Sector -> Sector 
 agregarTA t (S nom  cs2  ts) = S nom cs2 (t:ts)
 
--- eje 3.5  
+-- eje 3.6 
 
 sectoresAsignados :: Tripulante -> Nave -> [SectorId] 
 sectoresAsignados t (N arbolS) = idSectoresDondeAparece t arbolS 
@@ -341,7 +341,7 @@ idSectoresDondeAparece trp   (NodeT s t1 t2)   = idDeSectorSiAparece s trp ++ id
 idDeSectorSiAparece:: Sector -> Tripulante -> [SectorId]
 idDeSectorSiAparece (S id  cs2  ts) t = singular_Si_ id (pertenece t ts)
 
--- eje 3.6 
+-- eje 3.7
 
 tripulantes :: Nave -> [Tripulante]
 tripulantes (N arbolSec) = listaTripulantesDe arbolSec 
