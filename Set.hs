@@ -7,6 +7,7 @@ data Set a = S [a] deriving Show
 
 
 c1 = S ["a" , "b" , "c" ] 
+c2 = S [ "a" , "d" , "m"]
 
 
 emptyS :: Set a
@@ -33,12 +34,26 @@ sizeS  (S xs) = length xs
 
 removeS :: Eq a => a -> Set a -> Set a
 --Borra un elemento del conjunto.
-removeS  = undefined
+removeS x (S xs) = S (sinElemento x xs)
+
+sinElemento ::  Eq a => a  -> [a] -> [a]
+sinElemento _ [] = []
+sinElemento y  (x:xs) = if y == x 
+                        then xs
+                        else x:sinElemento y xs
 
 unionS :: Eq a => Set a -> Set a -> Set a
 --Dados dos conjuntos devuelve un conjunto con todos los elementos de ambos. conjuntos.
-unionS  (S xs)  (S ys) = S (xs ++ ys) -- ver repetidos.
+unionS  (S xs)  (S ys) = S (sinRepetidos xs ys) -- ver repetidos.
+
+sinRepetidos :: Eq a => [a] -> [a] -> [a]
+sinRepetidos [] ys = ys
+sinRepetidos xs [] = xs 
+sinRepetidos (x:xs) ys = if  pertenece x ys 
+                            then sinRepetidos xs ys 
+                            else x:sinRepetidos xs ys
+
 
 setToList :: Eq a => Set a -> [a]
 --Dado un conjunto devuelve una lista con todos los elementos distintos del conjunto.
-setToList  = undefined
+setToList (S xs) = xs
