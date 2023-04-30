@@ -1,13 +1,13 @@
-module Set (Set, emptyS, addS, belongs, sizeS, removeS, unionS, setToList)
+module SetV1 (Set, emptyS, addS, belongs, sizeS, removeS, unionS, setToList)
 
     where 
     
-data Set a = S [a] deriving Show
-
-
-
-c1 = S ["a" , "b" , "c" ] 
-c2 = S [ "a" , "d" , "m"]
+data Set a = S [a] 
+     deriving Show
+    {--
+        INV.REPRESENTACION :
+            -> el conjunto dado no admite elementos repetidos.
+    --}
 
 
 emptyS :: Set a
@@ -44,7 +44,7 @@ sinElemento y  (x:xs) = if y == x
 
 unionS :: Eq a => Set a -> Set a -> Set a
 --Dados dos conjuntos devuelve un conjunto con todos los elementos de ambos. conjuntos.
-unionS  (S xs)  (S ys) = S (sinRepetidos xs ys) -- ver repetidos.
+unionS  (S xs)  (S ys) = S (sinRepetidos xs ys)
 
 sinRepetidos :: Eq a => [a] -> [a] -> [a]
 sinRepetidos [] ys = ys
